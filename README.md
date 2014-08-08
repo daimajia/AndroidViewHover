@@ -12,6 +12,8 @@ I think, we need a hover view, to show menu, to show messages.
 
 Watch HD in [YouTube](http://www.youtube.com/watch?v=bsDQbMTtPvM).
 
+Download [Apk](https://github.com/daimajia/AndroidViewHover/releases/download/v1.0.0/AndroidViewHover-v1.0.0.apk)
+
 ## Usage
 
 ### Step0
