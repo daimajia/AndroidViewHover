@@ -8,7 +8,10 @@ I think, we need a hover view, to show menu, to show messages.
 
 ## Demo
 
-[![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/bsDQbMTtPvM/0.jpg)](http://www.youtube.com/watch?v=bsDQbMTtPvM)
+![](http://ww2.sinaimg.cn/mw690/610dc034jw1ej5iihjtl5g208z0f2npd.gif)
+
+Watch in [YouTube](http://www.youtube.com/watch?v=bsDQbMTtPvM)
+
 
 If you can not watch this video, please click this link:
 
