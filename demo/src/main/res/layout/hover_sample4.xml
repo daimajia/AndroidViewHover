@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/content"
+        android:background="#66000000"
+        android:layout_centerInParent="true"
+        android:textColor="#ffffff"
+        android:text="I'm a boy from China, who wants to make a world famous app, sorry, I forgot this is only a text to test the effect of the content situation..."
+        android:padding="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:gravity="right"
+        android:layout_marginBottom="4dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_height="wrap_content">
+            <ImageView
+                android:layout_marginRight="10dp"
+                android:id="@+id/cat"
+                android:src="@drawable/octocat"
+                android:layout_width="25dp"
+                android:layout_height="25dp" />
+            <ImageView
+                android:layout_marginRight="20dp"
+                android:id="@+id/mail"
+                android:layout_below="@+id/mail"
+                android:layout_toRightOf="@+id/cat"
+                android:src="@drawable/mail"
+                android:layout_width="25dp"
+                android:layout_height="25dp" />
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
+    android:id="@+id/sample3_wrapper"
+    android:background="#88000000"
+    android:layout_height="match_parent">
+    <ImageView
+        android:layout_marginRight="20dp"
+        android:id="@+id/eye"
+        android:layout_centerInParent="true"
+        android:src="@drawable/eye"
+        android:layout_width="25dp"
+        android:layout_height="25dp" />
+</RelativeLayout>

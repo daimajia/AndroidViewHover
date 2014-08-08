@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.makeramen.RoundedImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_centerInParent="true"
+        android:layout_width="55dip"
+        android:layout_height="55dp"
+        android:id="@+id/avatar"
+        android:src="@drawable/daimajia"
+        android:scaleType="centerCrop"
+        app:corner_radius="10dip"
+        app:border_width="1dp"
+        app:border_color="#ffffff"
+        app:mutate_background="true"
+        app:oval="true" />
+    <TextView
+        android:id="@+id/description"
+        android:text="I'm Daimajia."
+        android:layout_marginLeft="12dp"
+        android:textColor="#ffffff"
+        android:layout_marginBottom="12dp"
+        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

@@ -1,0 +1,77 @@
+<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:scrollbars="vertical"
+    xmlns:tools="http://schemas.android.com/tools">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        tools:context=".MainActivity">
+        <com.daimajia.androidviewhover.BlurLayout
+            android:id="@+id/blur_layout"
+            android:layout_width="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/source"
+                android:scaleType="fitXY"
+                android:src="@drawable/php"
+                android:layout_width="match_parent"
+                android:layout_height="125dp" />
+        </com.daimajia.androidviewhover.BlurLayout>
+        <com.daimajia.androidviewhover.BlurLayout
+            android:id="@+id/blur_layout2"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:layout_below="@+id/blur_layout"
+            android:layout_width="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_below="@+id/source"
+                android:id="@+id/source2"
+                android:layout_centerInParent="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/image2"
+                android:layout_width="match_parent"
+                android:layout_height="125dp" />
+        </com.daimajia.androidviewhover.BlurLayout>
+
+        <com.daimajia.androidviewhover.BlurLayout
+            android:id="@+id/blur_layout3"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:layout_below="@+id/blur_layout2"
+            android:layout_width="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_below="@+id/source"
+                android:id="@+id/source3"
+                android:layout_centerInParent="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/strawberries"
+                android:layout_width="match_parent"
+                android:layout_height="125dp" />
+        </com.daimajia.androidviewhover.BlurLayout>
+
+        <com.daimajia.androidviewhover.BlurLayout
+            android:id="@+id/blur_layout4"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:layout_below="@+id/blur_layout3"
+            android:layout_width="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_below="@+id/source"
+                android:id="@+id/source4"
+                android:layout_centerInParent="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/kid"
+                android:layout_width="match_parent"
+                android:layout_height="140dp" />
+        </com.daimajia.androidviewhover.BlurLayout>
+    </RelativeLayout>
+</ScrollView>
