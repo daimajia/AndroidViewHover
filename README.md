@@ -10,12 +10,23 @@ I think, we need a hover view, to show menu, to show messages.
 
 ![](http://ww2.sinaimg.cn/mw690/610dc034jw1ej5iihjtl5g208z0f2npd.gif)
 
-Watch in [YouTube](http://www.youtube.com/watch?v=bsDQbMTtPvM)
-
-
-If you can not watch this video, please click this link:
+Watch HD in [YouTube](http://www.youtube.com/watch?v=bsDQbMTtPvM).
 
 ## Usage
+
+### Step0
+
+Set up RenderScript
+
+- Eclipse, please visit [official tutorial](http://developer.android.com/guide/topics/renderscript/compute.html#access-rs-apis).
+- Android Studio, add 
+	```groovy
+	        
+	        renderscriptTargetApi 19
+        	renderscriptSupportMode true
+	```
+	in `build.gradle` `defaultConfig`, here is a [sample](https://github.com/daimajia/AndroidViewHover/blob/master/library/build.gradle#L12-L13)
+	
 
 ### Step1
 
@@ -23,17 +34,48 @@ If you can not watch this video, please click this link:
 ```groovy
 dependencies {
 	compile "com.android.support:support-v4:20.+"
-    compile 'com.nineoldandroids:library:2.4.0'
-    compile 'com.daimajia.easing:library:1.0.0@aar'
-    compile 'com.daimajia.androidanimations:library:1.1.2@aar'
+	compile 'com.nineoldandroids:library:2.4.0'
+	compile 'com.daimajia.easing:library:1.0.0@aar'
+	compile 'com.daimajia.androidanimations:library:1.1.2@aar'
+	compile 'com.daimajia.androidviewhover:library:1.0.0@aar'
 }
 ```
 
 #### Maven
 
+```xml
+	<dependency>
+	    <groupId>com.nineoldandroids</groupId>
+	    <artifactId>library</artifactId>
+	    <version>2.4.0</version>
+	</dependency>
+	<dependency>
+	    <groupId>com.daimajia.androidanimation</groupId>
+	    <artifactId>library</artifactId>
+	    <version>1.1.2</version>
+	    <type>apklib</type>
+	</dependency>
+	<dependency>
+	    <groupId>com.daimajia.easing</groupId>
+	    <artifactId>library</artifactId>
+	    <version>1.0.0</version>
+	    <type>apklib</type>
+	</dependency>
+	<dependency>
+	    <groupId>com.daimajia.androidviewhover</groupId>
+	    <artifactId>library</artifactId>
+	    <version>1.0.0</version>
+	    <type>apklib</type>
+	</dependency>
+```
+
 
 #### Eclipse
 
+- [NineOldAndroids-2.4.0](https://github.com/downloads/JakeWharton/NineOldAndroids/nineoldandroids-2.4.0.jar)
+- [AndroidViewAnimations-1.1.2](https://github.com/daimajia/AndroidViewAnimations/releases/download/v1.1.2/AndroidViewAnimations-1.1.2.jar)
+- [AndroidEasingFunctions-1.0.0](https://github.com/daimajia/AndroidViewAnimations/releases/download/v1.0.6/AndroidEasingFunctions-1.0.0.jar)
+- 
 ### Step2
 
 ![](http://ww4.sinaimg.cn/mw690/610dc034jw1ej5giogymhj20dw085q36.jpg)
@@ -75,7 +117,7 @@ dependencies {
 		sampleLayout.addChildDisappearAnimator(hover, R.id.heart, Techniques.FlipOutX);
 	```
 
-You can view the samples in my preset examples.
+You can view the samples in my [preset examples](https://github.com/daimajia/AndroidViewHover/blob/master/demo/src/main/java/com/daimajia/androidviewhover/demo/MainActivity.java).
 
 # Thanks
 
