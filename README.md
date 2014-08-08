@@ -75,7 +75,7 @@ dependencies {
 - [NineOldAndroids-2.4.0](https://github.com/downloads/JakeWharton/NineOldAndroids/nineoldandroids-2.4.0.jar)
 - [AndroidViewAnimations-1.1.2](https://github.com/daimajia/AndroidViewAnimations/releases/download/v1.1.2/AndroidViewAnimations-1.1.2.jar)
 - [AndroidEasingFunctions-1.0.0](https://github.com/daimajia/AndroidViewAnimations/releases/download/v1.0.6/AndroidEasingFunctions-1.0.0.jar)
-- 
+
 ### Step2
 
 ![](http://ww4.sinaimg.cn/mw690/610dc034jw1ej5giogymhj20dw085q36.jpg)
