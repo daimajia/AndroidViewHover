@@ -121,6 +121,10 @@ dependencies {
 
 You can view the samples in my [preset examples](https://github.com/daimajia/AndroidViewHover/blob/master/demo/src/main/java/com/daimajia/androidviewhover/demo/MainActivity.java).
 
+# Animations
+
+This project provides a lot of animations you can choose. Animations are from my another open-source project [AndroidViewAnimations](https://github.com/daimajia/AndroidViewAnimations#effects). And you can aslo using [easing funcitons](https://github.com/daimajia/AnimationEasingFunctions) to make your animations more real. Please enjoy it.
+
 # Thanks
 
 - [NineOldAndroids](https://github.com/JakeWharton/NineOldAndroids) by JakeWharton
