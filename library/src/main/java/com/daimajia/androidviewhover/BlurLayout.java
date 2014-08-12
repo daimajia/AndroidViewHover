@@ -60,6 +60,12 @@ public class BlurLayout extends RelativeLayout {
 
     private long mBlurDuration = DURATION;
 
+    public enum HOVER_STATUS {
+        APPEARING, APPEARED, DISAPPEARING, DISAPPEARED
+    };
+
+    private HOVER_STATUS mHoverStatus = HOVER_STATUS.DISAPPEARED;
+
     public BlurLayout(Context context) {
         super(context);
     }
@@ -71,7 +77,6 @@ public class BlurLayout extends RelativeLayout {
     public BlurLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
-
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -89,41 +94,85 @@ public class BlurLayout extends RelativeLayout {
 
         @Override
         public boolean onSingleTapUp(MotionEvent e) {
-            if(mHoverView != null){
-
-                if(!mPlayingAnimators.isEmpty())    return true;
-
-                removeView(mBlurImage);
-                if(enableBlurBackground)
-                    addBlurImage();
-
-                if(mHoverView.getParent() != null){
-                    ((ViewGroup)(mHoverView.getParent())).removeView(mHoverView);
-                }
-
-                addView(mHoverView, getFullParentSizeLayoutParams());
-
-                mHoverView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                    @Override
-                    public void onGlobalLayout() {
-
-                        startBlurImageAppearAnimator();
-
-                        startHoverAppearAnimator();
-
-                        startChildrenAppearAnimations();
-
-                        if(Build.VERSION.SDK_INT >= 16)
-                            mHoverView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                        else
-                            mHoverView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                    }
-                });
+            if(hover())
                 return true;
-            }
-            return super.onSingleTapConfirmed(e);
+            else
+                return super.onSingleTapConfirmed(e);
         }
     };
+
+    public void showHover(){
+        hover();
+    }
+
+    /**
+     * Let hover show.
+     * @return
+     */
+    private boolean hover(){
+        if(mHoverView == null)  return false;
+
+        if(getHoverStatus() != HOVER_STATUS.DISAPPEARED || !mPlayingAnimators.isEmpty())    return true;
+
+        removeView(mBlurImage);
+        if(enableBlurBackground)
+            addBlurImage();
+
+        if(mHoverView.getParent() != null){
+            ((ViewGroup)(mHoverView.getParent())).removeView(mHoverView);
+        }
+
+        addView(mHoverView, getFullParentSizeLayoutParams());
+
+        mHoverView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+
+                startBlurImageAppearAnimator();
+
+                startHoverAppearAnimator();
+
+                startChildrenAppearAnimations();
+
+                if(Build.VERSION.SDK_INT >= 16)
+                    mHoverView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                else
+                    mHoverView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+            }
+        });
+        return true;
+
+    }
+
+    /**
+     * Let hover view dismiss.
+     * Notice: only when hover view status is appeared, then, this may work.
+     */
+    public void dismissHover(){
+        if(getHoverStatus() != HOVER_STATUS.APPEARED || !mPlayingAnimators.isEmpty())
+            return;
+
+        startBlurImageDisappearAnimator();
+
+        startHoverDisappearAnimator();
+
+        startChildrenDisappearAnimations();
+    }
+
+    public void toggleHover(){
+        if(getHoverStatus() == HOVER_STATUS.DISAPPEARED)
+            showHover();
+        else if(getHoverStatus() == HOVER_STATUS.APPEARED)
+            dismissHover();
+    }
+
+    /**
+     * get currently hover status.
+     * @return
+     */
+    public HOVER_STATUS getHoverStatus(){
+        return mHoverStatus;
+    }
 
     private void addBlurImage(){
         Bitmap bm = Blur.apply(getContext(), Util.getViewBitmap(this));
@@ -133,11 +182,19 @@ public class BlurLayout extends RelativeLayout {
         this.addView(im);
     }
 
+    /**
+     * set background blur duration.
+     * @param duration
+     */
     public void setBlurDuration(long duration){
         if(duration > 100)
             mBlurDuration = duration;
     }
 
+    /**
+     * bind a hover view with BlurLayout.
+     * @param hover
+     */
     public void setHoverView(final View hover){
         mHoverView = hover;
 
@@ -150,13 +207,8 @@ public class BlurLayout extends RelativeLayout {
             @Override
             public void onClick(View v) {
 
-                if(!mPlayingAnimators.isEmpty())    return;
+                dismissHover();
 
-                startBlurImageDisappearAnimator();
-
-                startHoverDisappearAnimator();
-
-                startChildrenDisappearAnimations();
             }
         });
     }
@@ -291,6 +343,7 @@ public class BlurLayout extends RelativeLayout {
         public void onAnimationStart(Animator animation) {
             mAppearingAnimators.add(animation);
             if(mAppearingAnimators.size() == 1){
+                mHoverStatus = HOVER_STATUS.APPEARING;
                 for(AppearListener l : mAppearListeners){
                     l.onStart();
                 }
@@ -301,6 +354,7 @@ public class BlurLayout extends RelativeLayout {
         public void onAnimationEnd(Animator animation) {
             mAppearingAnimators.remove(animation);
             if(mAppearListeners.isEmpty()){
+                mHoverStatus = HOVER_STATUS.APPEARED;
                 for(AppearListener l : mAppearListeners){
                     l.onEnd();
                 }
@@ -324,6 +378,7 @@ public class BlurLayout extends RelativeLayout {
             mDisappearingAnimators.add(animation);
             if(mDisappearListeners.size() == 1){
                 for(DisappearListener l : mDisappearListeners){
+                    mHoverStatus = HOVER_STATUS.DISAPPEARING;
                     l.onStart();
                 }
             }
@@ -333,6 +388,7 @@ public class BlurLayout extends RelativeLayout {
         public void onAnimationEnd(Animator animation) {
             mDisappearingAnimators.remove(animation);
             if(mPlayingAnimators.isEmpty()){
+                mHoverStatus = HOVER_STATUS.DISAPPEARED;
                 removeView(mBlurImage);
                 removeView(mHoverView);
                 for(DisappearListener l : mDisappearListeners){
