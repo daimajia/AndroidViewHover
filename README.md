@@ -12,6 +12,8 @@ I think, we need a hover view, to show menu, to show messages.
 
 Watch HD in [YouTube](http://www.youtube.com/watch?v=bsDQbMTtPvM).
 
+Download [Apk](https://github.com/daimajia/AndroidViewHover/releases/download/v1.0.0/AndroidViewHover-v1.0.0.apk)
+
 ## Usage
 
 ### Step0
@@ -118,6 +120,10 @@ dependencies {
 	```
 
 You can view the samples in my [preset examples](https://github.com/daimajia/AndroidViewHover/blob/master/demo/src/main/java/com/daimajia/androidviewhover/demo/MainActivity.java).
+
+# Animations
+
+This project provides a lot of animations you can choose. Animations are from my another open-source project [AndroidViewAnimations](https://github.com/daimajia/AndroidViewAnimations#effects). And you can aslo using [easing funcitons](https://github.com/daimajia/AnimationEasingFunctions) to make your animations more real. Please enjoy it.
 
 # Thanks
 
