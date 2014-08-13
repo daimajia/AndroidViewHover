@@ -3,6 +3,7 @@ package com.daimajia.androidviewhover;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -31,6 +32,7 @@ public class BlurLayout extends RelativeLayout {
     private View mHoverView;
 
     private boolean enableBlurBackground = true;
+    private int mBlurRadius = 10;
     private ImageView mBlurImage;
 
     private static long DURATION = 500;
@@ -40,12 +42,13 @@ public class BlurLayout extends RelativeLayout {
     private ArrayList<Animator> mAppearingAnimators = new ArrayList<Animator>();
     private ArrayList<Animator> mDisappearingAnimators = new ArrayList<Animator>();
 
-
     private ArrayList<AppearListener> mAppearListeners = new ArrayList<AppearListener>();
     private ArrayList<DisappearListener> mDisappearListeners = new ArrayList<DisappearListener>();
 
     private boolean enableBackgroundZoom = false;
     private float mZoomRatio = 1.14f;
+
+    private boolean enableTouchEvent = true;
 
     private Animator mHoverAppearAnimator;
     private YoYo.AnimationComposer mHoverAppearAnimationComposer;
@@ -79,8 +82,8 @@ public class BlurLayout extends RelativeLayout {
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        return gestureDetector.onTouchEvent(event);
+    public boolean onTouchEvent(@NonNull MotionEvent event) {
+        return enableTouchEvent && gestureDetector.onTouchEvent(event);
     }
 
     private GestureDetector gestureDetector = new GestureDetector(getContext(), new BlurLayoutDetector());
@@ -175,7 +178,7 @@ public class BlurLayout extends RelativeLayout {
     }
 
     private void addBlurImage(){
-        Bitmap bm = Blur.apply(getContext(), Util.getViewBitmap(this));
+        Bitmap bm = Blur.apply(getContext(), Util.getViewBitmap(this), mBlurRadius);
         ImageView im = new ImageView(getContext());
         im.setImageBitmap(bm);
         mBlurImage = im;
@@ -189,6 +192,15 @@ public class BlurLayout extends RelativeLayout {
     public void setBlurDuration(long duration){
         if(duration > 100)
             mBlurDuration = duration;
+    }
+
+
+    /**
+     * set background blur radius.
+     * @param radius radius to be used for the gaussian blur operation
+     */
+    public void setBlurRadius(int radius) {
+        this.mBlurRadius = radius;
     }
 
     /**
@@ -211,6 +223,14 @@ public class BlurLayout extends RelativeLayout {
 
             }
         });
+    }
+
+    /**
+     * Sets whether or not touching the BlurLayout will trigger the Hover View and blur effect
+     * @param enableTouchEvent
+     */
+    public void enableTouchEvent(boolean enableTouchEvent) {
+        this.enableTouchEvent = enableTouchEvent;
     }
 
     public void enableBlurBackground(boolean enable){
