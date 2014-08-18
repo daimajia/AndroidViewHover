@@ -180,7 +180,7 @@ public class BlurLayout extends RelativeLayout {
         Bitmap b = Util.getViewBitmap(this);
         if(b == null)
             return;
-        Bitmap bm = Blur.apply(getContext(), b);
+        Bitmap bm = Blur.apply(getContext(), b, mBlurRadius);
         ImageView im = new ImageView(getContext());
         im.setImageBitmap(bm);
         mBlurImage = im;
