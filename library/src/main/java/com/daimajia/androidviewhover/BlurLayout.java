@@ -175,7 +175,11 @@ public class BlurLayout extends RelativeLayout {
     }
 
     private void addBlurImage(){
-        Bitmap bm = Blur.apply(getContext(), Util.getViewBitmap(this));
+        Bitmap b = Util.getViewBitmap(this);
+        if(b == null)
+            return;
+
+        Bitmap bm = Blur.apply(getContext(), b);
         ImageView im = new ImageView(getContext());
         im.setImageBitmap(bm);
         mBlurImage = im;
@@ -228,7 +232,7 @@ public class BlurLayout extends RelativeLayout {
     }
 
     private void startBlurImageAppearAnimator(){
-        if(!enableBlurBackground)    return;
+        if(!enableBlurBackground || mBlurImage == null)    return;
 
         AnimatorSet set = new AnimatorSet();
          if(enableBackgroundZoom){
@@ -250,7 +254,8 @@ public class BlurLayout extends RelativeLayout {
     }
 
     private void startBlurImageDisappearAnimator(){
-        if(!enableBlurBackground)    return;
+        if(!enableBlurBackground || mBlurImage == null)    return;
+
         AnimatorSet set = new AnimatorSet();
         if(enableBackgroundZoom)
             set.playTogether(
