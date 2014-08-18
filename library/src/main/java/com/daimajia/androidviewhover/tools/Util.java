@@ -1,6 +1,7 @@
 package com.daimajia.androidviewhover.tools;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.view.View;
 
 import com.nineoldandroids.view.ViewHelper;
@@ -8,34 +9,12 @@ import com.nineoldandroids.view.ViewHelper;
 public class Util {
 
     public static Bitmap getViewBitmap(View v) {
-        v.clearFocus();
-        v.setPressed(false);
-
-        boolean willNotCache = v.willNotCacheDrawing();
-        v.setWillNotCacheDrawing(false);
-
-        // Reset the drawing cache background color to fully transparent
-        // for the duration of this operation
-        int color = v.getDrawingCacheBackgroundColor();
-        v.setDrawingCacheBackgroundColor(0);
-
-        if (color != 0) {
-            v.destroyDrawingCache();
-        }
-        v.buildDrawingCache();
-        Bitmap cacheBitmap = v.getDrawingCache();
-        if (cacheBitmap == null) {
+        if(v.getWidth() == 0 || v.getHeight() == 0)
             return null;
-        }
-
-        Bitmap bitmap = Bitmap.createBitmap(cacheBitmap);
-
-        // Restore the view
-        v.destroyDrawingCache();
-        v.setWillNotCacheDrawing(willNotCache);
-        v.setDrawingCacheBackgroundColor(color);
-
-        return bitmap;
+        Bitmap b = Bitmap.createBitmap( v.getWidth(), v.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas c = new Canvas(b);
+        v.draw(c);
+        return b;
     }
 
     public static void reset(View target) {
