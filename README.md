@@ -77,7 +77,7 @@ dependencies {
 - [NineOldAndroids-2.4.0](https://github.com/downloads/JakeWharton/NineOldAndroids/nineoldandroids-2.4.0.jar)
 - [AndroidViewAnimations-1.1.2](https://github.com/daimajia/AndroidViewAnimations/releases/download/v1.1.2/AndroidViewAnimations-1.1.2.jar)
 - [AndroidEasingFunctions-1.0.0](https://github.com/daimajia/AndroidViewAnimations/releases/download/v1.0.6/AndroidEasingFunctions-1.0.0.jar)
-- [AndroidViewHover-1.0.1](https://github.com/daimajia/AndroidViewHover/releases/download/v1.0.1/AndroidViewHover-1.0.1.jar)
+- [AndroidViewHover-1.0.2](https://github.com/daimajia/AndroidViewHover/releases/download/v1.0.2/AndroidViewHover-v1.0.2.jar)
 
 ### Step2
 
