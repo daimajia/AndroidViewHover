@@ -18,7 +18,7 @@ import com.daimajia.androidviewhover.BlurLayout;
 public class MainActivity extends ActionBarActivity {
 
     private Context mContext;
-    private BlurLayout mSampleLayout, mSampleLayout2, mSampleLayout3, mSampleLayout4, mSampleLayout5;
+    private BlurLayout mSampleLayout, mSampleLayout2, mSampleLayout3, mSampleLayout4;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,17 +117,6 @@ public class MainActivity extends ActionBarActivity {
                 emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "I have a good idea about this project..");
 
                 startActivity(Intent.createChooser(emailIntent, "Send mail..."));
-            }
-        });
-
-        //sample5
-        mSampleLayout5 = (BlurLayout)findViewById(R.id.blur_layout5);
-        mSampleLayout5.setHoverView(hover4);
-
-        findViewById(R.id.toggle).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mSampleLayout5.toggleHover();
             }
         });
     }
