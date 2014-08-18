@@ -73,5 +73,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="140dp" />
         </com.daimajia.androidviewhover.BlurLayout>
+
+        <com.daimajia.androidviewhover.BlurLayout
+            android:id="@+id/blur_layout5"
+            android:background="#ff0000"
+            android:layout_below="@+id/blur_layout4"
+            android:layout_width="wrap_content"
+            android:layout_height="200dp"
+            android:layout_weight="1">
+
+            <FrameLayout
+                android:id="@+id/fragment_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                />
+        </com.daimajia.androidviewhover.BlurLayout>
+        <Button
+            android:layout_below="@+id/blur_layout5"
+            android:id="@+id/toggle"
+            android:text="Toggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </RelativeLayout>
 </ScrollView>
