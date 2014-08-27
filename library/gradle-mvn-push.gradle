@@ -127,6 +127,5 @@ afterEvaluate { project ->
         archives androidSourcesJar
         archives androidJavadocsJar
         archives apklib
-        archives jar
     }
 }

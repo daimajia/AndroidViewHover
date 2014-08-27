@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.daimajia.androidviewhover.proxy.AnimationProxy;
 import com.daimajia.androidviewhover.tools.Blur;
 import com.daimajia.androidviewhover.tools.Util;
 import com.nineoldandroids.animation.Animator;
@@ -55,10 +56,8 @@ public class BlurLayout extends RelativeLayout {
     private Animator mHoverDisappearAnimator;
     private YoYo.AnimationComposer mHoverDisappearAnimationComposer;
 
-    private HashMap<View, ArrayList<YoYo.AnimationComposer>> mChildAppearAnimationComposers = new HashMap<View, ArrayList<YoYo.AnimationComposer>>();
-    private HashMap<View, ArrayList<YoYo.AnimationComposer>> mChildDisappearAnimationComposers = new HashMap<View, ArrayList<YoYo.AnimationComposer>>();
-    private HashMap<View, ArrayList<Animator>> mChildAppearAnimators = new HashMap<View, ArrayList<Animator>>();
-    private HashMap<View, ArrayList<Animator>> mChildDisappearAnimators = new HashMap<View, ArrayList<Animator>>();
+    private HashMap<View, ArrayList<AnimationProxy>> mChildAppearAnimators = new HashMap<View, ArrayList<AnimationProxy>>();
+    private HashMap<View, ArrayList<AnimationProxy>> mChildDisappearAnimators = new HashMap<View, ArrayList<AnimationProxy>>();
 
     private long mBlurDuration = DURATION;
 
@@ -130,11 +129,11 @@ public class BlurLayout extends RelativeLayout {
             @Override
             public void onGlobalLayout() {
 
+                startChildrenAppearAnimations();
+
                 startBlurImageAppearAnimator();
 
                 startHoverAppearAnimator();
-
-                startChildrenAppearAnimations();
 
                 if(Build.VERSION.SDK_INT >= 16)
                     mHoverView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
@@ -311,15 +310,8 @@ public class BlurLayout extends RelativeLayout {
     }
 
     private void startChildrenAppearAnimations(){
-        for(Map.Entry<View, ArrayList<YoYo.AnimationComposer>> entry : mChildAppearAnimationComposers.entrySet()){
-            Util.reset(entry.getKey());
-            for(YoYo.AnimationComposer composer : entry.getValue()){
-                composer.playOn(entry.getKey());
-            }
-        }
-        for(Map.Entry<View, ArrayList<Animator>> entry : mChildAppearAnimators.entrySet()){
-            Util.reset(entry.getKey());
-            for(Animator animator : entry.getValue()){
+        for(Map.Entry<View, ArrayList<AnimationProxy>> entry : mChildAppearAnimators.entrySet()){
+            for(AnimationProxy animator : entry.getValue()){
                 animator.start();
             }
         }
@@ -327,13 +319,8 @@ public class BlurLayout extends RelativeLayout {
 
     private void startChildrenDisappearAnimations(){
         for(View view : mChildDisappearAnimators.keySet()){
-            for(Animator animator : mChildDisappearAnimators.get(view)){
+            for(AnimationProxy animator : mChildDisappearAnimators.get(view)){
                 animator.start();
-            }
-        }
-        for(Map.Entry<View, ArrayList<YoYo.AnimationComposer>> entry : mChildDisappearAnimationComposers.entrySet()){
-            for(YoYo.AnimationComposer composer : entry.getValue()){
-                composer.playOn(entry.getKey());
             }
         }
     }
@@ -529,97 +516,89 @@ public class BlurLayout extends RelativeLayout {
     }
 
     public void addChildAppearAnimator(View hoverView, int resId, Techniques technique, long duration, long delay){
-        addChildAppearAnimator(hoverView, resId, technique, duration, delay, null);
+        addChildAppearAnimator(hoverView, resId, technique, duration, delay, true, null);
     }
 
-    public void addChildAppearAnimator(View hoverView, int resId, Techniques technique, long duration, long delay, Interpolator interpolator){
-        addChildAppearAnimator(hoverView, resId, technique, duration, delay, interpolator, new Animator.AnimatorListener[]{});
+    public void addChildAppearAnimator(View hoverView, int resId, Techniques technique, long duration, long delay, boolean hiddenWhenDelaying){
+        addChildAppearAnimator(hoverView, resId, technique, duration, delay, hiddenWhenDelaying, null);
     }
 
-    public void addChildAppearAnimator(View hoverView, int resId, Techniques technique, long duration, long delay, Interpolator interpolator, Animator.AnimatorListener... listeners){
-        if(hoverView == null)
-            throw new IllegalStateException("Hover view is null");
-        if(hoverView.findViewById(resId) == null)
-            throw new IllegalStateException("Can not find the child view");
-        View child = hoverView.findViewById(resId);
-
-        YoYo.AnimationComposer composer = YoYo.with(technique).duration(duration).delay(delay).interpolate(interpolator);
-        for(Animator.AnimatorListener l : listeners)
-            composer.withListener(l);
-
-        if(mChildAppearAnimationComposers.get(child) == null){
-            mChildAppearAnimationComposers.put(child, new ArrayList<YoYo.AnimationComposer>());
-        }
-        composer.withListener(mGlobalListener);
-        composer.withListener(mGlobalAppearingAnimators);
-        mChildAppearAnimationComposers.get(child).add(composer);
+    public void addChildAppearAnimator(View hoverView, int resId, Techniques technique, long duration, long delay, boolean hiddenWhenDelaying, Interpolator interpolator){
+        addChildAppearAnimator(hoverView, resId, technique, duration, delay, hiddenWhenDelaying, interpolator, new Animator.AnimatorListener[]{});
     }
 
-    public void addChildAppearAnimator(View child, Animator animator){
-        if(animator == null)
-            throw new IllegalStateException("animator can not be null");
-        if(child == null)
-            throw new IllegalStateException("child view can not be null");
+    public void addChildAppearAnimator(View hoverView, int resId, Techniques technique, long duration, long delay, boolean hiddenWhenDelaying, Interpolator interpolator, Animator.AnimatorListener... listeners){
+        AnimationProxy executor = AnimationProxy.build(hoverView, resId, technique, duration, delay, hiddenWhenDelaying, interpolator, listeners);
 
-        animator.setTarget(child);
-        if(mChildAppearAnimators.containsKey(child) == false){
-            mChildAppearAnimators.put(child, new ArrayList<Animator>());
-        }
-        animator.addListener(mGlobalListener);
-        animator.addListener(mGlobalAppearingAnimators);
-        mChildAppearAnimators.get(child).add(animator);
+        View child = executor.getTarget();
+
+        if(mChildAppearAnimators.get(child) == null)
+            mChildAppearAnimators.put(child, new ArrayList<AnimationProxy>());
+
+        executor.withListener(mGlobalListener);
+        executor.withListener(mGlobalAppearingAnimators);
+        child.setVisibility(INVISIBLE);
+
+        mChildAppearAnimators.get(child).add(executor);
     }
 
+    public void addChildAppearAnimator(View hoverView, int childId, Animator animator){
+        AnimationProxy executor = AnimationProxy.build(hoverView, childId, animator);
+
+        View child = executor.getTarget();
+
+        if(mChildAppearAnimators.get(child) == null)
+            mChildAppearAnimators.put(child, new ArrayList<AnimationProxy>());
+
+        executor.withListener(mGlobalListener);
+        executor.withListener(mGlobalAppearingAnimators);
+        mChildAppearAnimators.get(child).add(executor);
+    }
 
     public void addChildDisappearAnimator(View hoverView, int resId, Techniques technique){
         addChildDisappearAnimator(hoverView, resId, technique, DURATION);
     }
 
     public void addChildDisappearAnimator(View hoverView, int resId, Techniques technique, long duration){
-        addChildDisappearAnimator(hoverView, resId, technique, duration, 0);
+        addChildDisappearAnimator(hoverView, resId, technique, duration, 0, false);
     }
 
     public void addChildDisappearAnimator(View hoverView, int resId, Techniques technique, long duration, long delay){
-        addChildDisappearAnimator(hoverView, resId, technique, duration, delay, null);
+        addChildDisappearAnimator(hoverView, resId, technique, duration, delay, false, null);
     }
 
-    public void addChildDisappearAnimator(View hoverView, int resId, Techniques technique, long duration, long delay, Interpolator interpolator){
-        addChildDisappearAnimator(hoverView, resId, technique, duration, delay, interpolator, new Animator.AnimatorListener[]{});
+    public void addChildDisappearAnimator(View hoverView, int resId, Techniques technique, long duration, long delay, boolean invisibleWhenDelaying){
+        addChildDisappearAnimator(hoverView, resId, technique, duration, delay,invisibleWhenDelaying, null);
     }
 
-    public void addChildDisappearAnimator(View hoverView, int resId, Techniques technique, long duration, long delay, Interpolator interpolator, Animator.AnimatorListener... listeners){
-        if(hoverView == null)
-            throw new IllegalStateException("Hover view is null");
-        if(hoverView.findViewById(resId) == null)
-            throw new IllegalStateException("Can not find the child view");
-
-        View child = hoverView.findViewById(resId);
-
-        YoYo.AnimationComposer composer = YoYo.with(technique).duration(duration).delay(delay).interpolate(interpolator);
-        for(Animator.AnimatorListener l : listeners){
-            composer.withListener(l);
-        }
-        if(mChildDisappearAnimationComposers.containsKey(child) == false){
-            mChildDisappearAnimationComposers.put(child, new ArrayList<YoYo.AnimationComposer>());
-        }
-        composer.withListener(mGlobalListener);
-        composer.withListener(mGlobalDisappearAnimators);
-        mChildDisappearAnimationComposers.get(child).add(composer);
+    public void addChildDisappearAnimator(View hoverView, int resId, Techniques technique, long duration, long delay, boolean invisibleWhenDelaying, Interpolator interpolator){
+        addChildDisappearAnimator(hoverView, resId, technique, duration, delay, invisibleWhenDelaying, interpolator, new Animator.AnimatorListener[]{});
     }
 
-    public void addChildDisappearAnimator(View child, Animator animator){
-        if(animator == null)
-            throw new IllegalStateException("animator can not be null");
-        if(child == null)
-            throw new IllegalStateException("child view can not be null");
+    public void addChildDisappearAnimator(View hoverView, int resId, Techniques technique, long duration, long delay, boolean invisibleWhenDelaying, Interpolator interpolator, Animator.AnimatorListener... listeners){
 
-        animator.setTarget(child);
-        animator.addListener(mGlobalListener);
-        animator.addListener(mGlobalDisappearAnimators);
-        if(mChildDisappearAnimators.containsKey(child) == false){
-            mChildDisappearAnimators.put(child, new ArrayList<Animator>());
-        }
-        mChildDisappearAnimators.get(child).add(animator);
+        AnimationProxy executor = AnimationProxy.build(hoverView, resId, technique, duration, delay, invisibleWhenDelaying, interpolator, listeners);
+
+        View child = executor.getTarget();
+        if(mChildDisappearAnimators.containsKey(child) == false)
+            mChildDisappearAnimators.put(child, new ArrayList<AnimationProxy>());
+
+        executor.withListener(mGlobalListener);
+        executor.withListener(mGlobalDisappearAnimators);
+        mChildDisappearAnimators.get(child).add(executor);
+    }
+
+    public void addChildDisappearAnimator(View hoverView, int childId, Animator animator){
+        AnimationProxy executor = AnimationProxy.build(hoverView, childId, animator);
+
+        View child = executor.getTarget();
+
+        if(mChildDisappearAnimators.get(child) == null)
+            mChildDisappearAnimators.put(child, new ArrayList<AnimationProxy>());
+
+        executor.withListener(mGlobalListener);
+        executor.withListener(mGlobalDisappearAnimators);
+        mChildDisappearAnimators.get(child).add(executor);
     }
 
     public LayoutParams getFullParentSizeLayoutParams(){

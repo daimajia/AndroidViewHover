@@ -45,13 +45,13 @@ public class MainActivity extends ActionBarActivity {
         });
         mSampleLayout.setHoverView(hover);
         mSampleLayout.setBlurDuration(550);
-        mSampleLayout.addChildAppearAnimator(hover, R.id.heart, Techniques.FlipInX);
-        mSampleLayout.addChildAppearAnimator(hover, R.id.share, Techniques.FlipInX);
-        mSampleLayout.addChildAppearAnimator(hover, R.id.more, Techniques.FlipInX);
+        mSampleLayout.addChildAppearAnimator(hover, R.id.heart, Techniques.FlipInX, 550, 0);
+        mSampleLayout.addChildAppearAnimator(hover, R.id.share, Techniques.FlipInX, 550, 250);
+        mSampleLayout.addChildAppearAnimator(hover, R.id.more, Techniques.FlipInX, 550, 500);
 
-        mSampleLayout.addChildDisappearAnimator(hover, R.id.heart, Techniques.FlipOutX);
-        mSampleLayout.addChildDisappearAnimator(hover, R.id.share, Techniques.FlipOutX);
-        mSampleLayout.addChildDisappearAnimator(hover, R.id.more, Techniques.FlipOutX);
+        mSampleLayout.addChildDisappearAnimator(hover, R.id.heart, Techniques.FlipOutX, 550, 500);
+        mSampleLayout.addChildDisappearAnimator(hover, R.id.share, Techniques.FlipOutX, 550, 250);
+        mSampleLayout.addChildDisappearAnimator(hover, R.id.more, Techniques.FlipOutX, 550, 0);
 
         mSampleLayout.addChildAppearAnimator(hover, R.id.description, Techniques.FadeInUp);
         mSampleLayout.addChildDisappearAnimator(hover, R.id.description, Techniques.FadeOutDown);
