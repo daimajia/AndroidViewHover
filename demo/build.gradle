@@ -11,13 +11,13 @@ android {
         minSdkVersion 8
         targetSdkVersion 20
         renderscriptTargetApi 19
-        renderscriptSupportMode true
+        renderscriptSupportModeEnabled true
         versionCode 2
         versionName "1.0.1"
     }
     buildTypes {
         release {
-            runProguard false
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
