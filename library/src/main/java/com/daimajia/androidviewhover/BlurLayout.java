@@ -366,8 +366,8 @@ public class BlurLayout extends RelativeLayout {
         @Override
         public void onAnimationEnd(Animator animation) {
             mAppearingAnimators.remove(animation);
-            if(mAppearListeners.isEmpty()){
-                mHoverStatus = HOVER_STATUS.APPEARED;
+            mHoverStatus = HOVER_STATUS.APPEARED;
+            if(!mAppearListeners.isEmpty()){
                 for(AppearListener l : mAppearListeners){
                     l.onEnd();
                 }
