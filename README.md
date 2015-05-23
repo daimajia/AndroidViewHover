@@ -39,7 +39,7 @@ dependencies {
 	compile 'com.nineoldandroids:library:2.4.0'
 	compile 'com.daimajia.easing:library:1.0.0@aar'
 	compile 'com.daimajia.androidanimations:library:1.1.2@aar'
-	compile 'com.daimajia.androidviewhover:library:1.0.3@aar'
+	compile 'com.daimajia.androidviewhover:library:1.0.4@aar'
 }
 ```
 
@@ -66,7 +66,7 @@ dependencies {
 	<dependency>
 	    <groupId>com.daimajia.androidviewhover</groupId>
 	    <artifactId>library</artifactId>
-	    <version>1.0.3</version>
+	    <version>1.0.4</version>
 	    <type>apklib</type>
 	</dependency>
 ```
