@@ -18,9 +18,9 @@ public class Blur {
         return apply(context, sentBitmap, DEFAULT_BLUR_RADIUS, DEFAULT_SCALE);
     }
 
-    public static Bitmap apply(Context context, Bitmap sentBitmap, int radius, float scaleRadius) {
+    public static Bitmap apply(Context context, Bitmap sentBitmap, int radius) {
         // shrink half
-        sentBitmap = scaleBitmap(sentBitmap, 1 / scaleRadius);
+        sentBitmap = scaleBitmap(sentBitmap, 1 / DEFAULT_SCALE);
         final Bitmap bitmap = sentBitmap.copy(sentBitmap.getConfig(), true);
         final RenderScript rs = RenderScript.create(context);
         final Allocation input = Allocation.createFromBitmap(rs, sentBitmap, Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
@@ -32,7 +32,7 @@ public class Blur {
         script.forEach(output);
         output.copyTo(bitmap);
         //zoom bitmap
-        final Bitmap zoomBitmap = scaleBitmap(bitmap, scaleRadius);
+        final Bitmap zoomBitmap = scaleBitmap(bitmap, DEFAULT_SCALE);
         bitmap.recycle();
         sentBitmap.recycle();
         rs.destroy();
