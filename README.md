@@ -35,11 +35,11 @@ Set up RenderScript
 #### Gradle
 ```groovy
 dependencies {
-	compile "com.android.support:support-v4:20.+"
-	compile 'com.nineoldandroids:library:2.4.0'
-	compile 'com.daimajia.easing:library:1.0.0@aar'
-	compile 'com.daimajia.androidanimations:library:1.1.2@aar'
-	compile 'com.daimajia.androidviewhover:library:1.0.4@aar'
+	implementation "com.android.support:support-v4:20.+"
+	implementation 'com.nineoldandroids:library:2.4.0'
+	implementation 'com.daimajia.easing:library:1.0.0@aar'
+	implementation 'com.daimajia.androidanimations:library:1.1.2@aar'
+	implementation 'com.daimajia.androidviewhover:library:1.0.4@aar'
 }
 ```
 
